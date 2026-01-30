@@ -53,7 +53,8 @@ const TaskCard = ({ task, index }) => {
             <span className="text-xs text-muted-foreground">
               {new Date(task.createdAt).toLocaleString()}
             </span>
-            {task.completedAt && (
+            {task.completedAt && 
+             new Date(task.completedAt).getTime() !== new Date(task.createdAt).getTime() && (
               <>
                 <span className="text-xs text-muted-foreground"> – </span>
                 <Calendar className="size-3 text-muted-foreground" />
