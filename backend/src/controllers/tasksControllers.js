@@ -3,7 +3,7 @@ import Task from "../models/Task.js";
 export const getAllTasks = async (req, res) => {
     try {
         const tasks = await Task.find().sort({ createdAt: -1 });
-        res.status(200).json(tasks);
+        res.status(200).json({ tasks });
     } catch (error) {
         console.error("Lỗi khi gọi getAllTasks:", error);
         res.status(500).json({ message: "Lỗi máy chủ" });
