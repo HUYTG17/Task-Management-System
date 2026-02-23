@@ -3,24 +3,32 @@ import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Check, Trash2, Circle, CheckCircle2, Calendar, SquarePen, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const TaskCard = ({ task, index }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const isCompleted = task.status === "complete";
 
   return (
-    <Card className="group p-4 border-0 bg-gradient-card shadow-custom-sm hover:shadow-custom-md transition-shadow">
-      <div className="flex items-center gap-3">
+    <Card
+      className={cn(
+        "p-4 bg-gradient-card border-0 shadow-custom-md hover:shadow-custom-lg transition-all duration-200 animate-fade-in group",
+        task.status === "complete" && "opacity-75"
+      )}
+      style={{ animationDelay: `${index * 50}ms` }}
+    >
+      <div className="flex items-center gap-4">
+        {/* nút tròn */}
         <Button
           variant="ghost"
           size="icon"
-          className={`flex-shrink-0 size-8 rounded-full transition-all duration-200 ${
-            isCompleted
+          className={cn(
+            "flex-shrink-0 size-8 rounded-full transition-all duration-200",
+            task.status === "complete"
               ? "text-success hover:text-success/80"
               : "text-muted-foreground hover:text-primary"
-          }`}
+          )}
         >
-          {isCompleted ? (
+          {task.status === "complete" ? (
             <CheckCircle2 className="size-5" />
           ) : (
             <Circle className="size-5" />
@@ -37,11 +45,12 @@ const TaskCard = ({ task, index }) => {
             />
           ) : (
             <p
-              className={`text-base transition-all duration-200 ${
+              className={cn(
+                "text-base transition-all duration-200",
                 task.status === "complete"
                   ? "line-through text-muted-foreground"
                   : "text-foreground"
-              }`}
+              )}
             >
               {task.title}
             </p>
@@ -53,10 +62,9 @@ const TaskCard = ({ task, index }) => {
             <span className="text-xs text-muted-foreground">
               {new Date(task.createdAt).toLocaleString()}
             </span>
-            {task.completedAt && 
-             new Date(task.completedAt).getTime() !== new Date(task.createdAt).getTime() && (
+            {task.completedAt && (
               <>
-                <span className="text-xs text-muted-foreground"> – </span>
+                <span className="text-xs text-muted-foreground"> - </span>
                 <Calendar className="size-3 text-muted-foreground" />
                 <span className="text-xs text-muted-foreground">
                   {new Date(task.completedAt).toLocaleString()}
@@ -66,13 +74,13 @@ const TaskCard = ({ task, index }) => {
           </div>
         </div>
 
-        {/* Nút chỉnh và xóa */}
+        {/* Nút chỉnh sửa và xóa */}
         <div className="hidden gap-2 group-hover:inline-flex animate-slide-up">
           {/* Nút edit */}
           <Button
             variant="ghost"
             size="icon"
-            className="flex-shrink-0 transition-colors size-8 text-muted-foreground hover:text-info"
+            className="shrink-0 transition-colors size-8 text-muted-foreground hover:text-info"
           >
             <SquarePen className="size-4" />
           </Button>
@@ -81,11 +89,12 @@ const TaskCard = ({ task, index }) => {
           <Button
             variant="ghost"
             size="icon"
-            className="flex-shrink-0 transition-colors size-8 text-muted-foreground hover:text-destructive"
+            className="shrink-0 transition-colors size-8 text-muted-foreground hover:text-destructive"
           >
             <Trash2 className="size-4" />
           </Button>
         </div>
+        
       </div>
     </Card>
   );

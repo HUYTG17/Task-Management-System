@@ -2,11 +2,26 @@ import React from "react";
 import TaskEmptyState from "./TaskEmptyState";
 import TaskCard from "./TaskCard";
 
-const TaskList = (filteredTasks) => {
-  const filter = "all";
+const TaskList = () => {
+  let filter = "all";
+  const filteredTasks = [
+    {
+      _id: "1",
+      title: "hoc react",
+      status: "active",
+      completedAt: null,
+      createdAt: new Date(),
+    },
+    {
+      _id: "2",
+      title: "hoc js",
+      status: "complete",
+      completedAt: new Date(),
+      createdAt: new Date(),
+    },
+  ];
 
-
-  if (!filteredTasks || filteredTasks.length === 0) {
+  if(!filteredTasks || filteredTasks.length === 0) {
     return <TaskEmptyState filter={filter} />;
   }
 
