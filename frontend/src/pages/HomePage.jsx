@@ -9,24 +9,25 @@ import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import axios from "axios";
 
+
 const HomePage = () => {
   const [taskBuffer, setTaskBuffer] = useState([]);
 
-  const fetchTasks = async () => {
-    try {
-      const res = await axios.get("http://localhost:5001/api/tasks");
-      setTaskBuffer(res.data);
-      console.log(res.data);
-    } catch (error) {
-      console.error("Lỗi xảy ra khi truy xuất tasks:", error);
-      toast.error("Lỗi xảy ra khi truy xuất tasks.");
-    }
-  };
-
   useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const res = await axios.get("http://localhost:5001/api/tasks");
+        setTaskBuffer(res.data);
+        console.log(res.data);
+      } catch (error) {
+        console.error("Lỗi xảy ra khi truy xuất tasks:", error);
+        toast.error("Lỗi xảy ra khi truy xuất tasks.");
+      }
+    };
+    
     fetchTasks();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   
   return (
     <div className="min-h-screen w-full relative bg-white">
@@ -59,7 +60,7 @@ const HomePage = () => {
         <StatsAndFilters/>
         
         {/* Danh Sách Nhiệm Vụ */}
-        <TaskList tasks={taskBuffer} />
+        <TaskList filteredTasks={taskBuffer} />
         
         {/* Phân Trang và Lọc Theo Date */}
         <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">

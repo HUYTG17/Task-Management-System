@@ -10,7 +10,7 @@ const AddTask = () => {
       <div className="flex flex-col gap-3 sm:flex-row">
         <Input
           type="text"
-          placeholder="Cần phải làm gì?"
+          placeholder="Việc cần làm?"
           className="h-12 text-base bg-slate-50 sm:flex-1 border-border/50 focus:border-primary/50 focus:ring-primary/20"
         />
         <Button
