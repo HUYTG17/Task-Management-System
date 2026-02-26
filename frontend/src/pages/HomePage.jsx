@@ -6,28 +6,50 @@ import TaskListPagination from "@/components/TaskListPagination";
 import DateTimeFilter from "@/components/DateTimeFilter";
 import Footer from "@/components/Footer";
 import React, { useEffect, useState } from "react";
+
+
 import { toast } from "sonner";
-import axios from "axios";
+import api from "@/lib/axios";
 
 
 const HomePage = () => {
   const [taskBuffer, setTaskBuffer] = useState([]);
+  const [activeTaskCount, setActiveTaskCount] = useState(0);
+  const [completeTaskCount, setCompleteTaskCount] = useState(0);
+  const [filter, setFilter] = useState("all");
+
+
+  //logic
+  const fetchTasks = async () => {
+    try {
+      const res = await api.get("/tasks");
+      setTaskBuffer(res.data.tasks);
+      setActiveTaskCount(res.data.activeCount);
+      setCompleteTaskCount(res.data.completeCount);
+      
+    } catch (error) {
+      console.error("Lỗi xảy ra khi truy xuất tasks:", error);
+      toast.error("Lỗi xảy ra khi truy xuất tasks.");
+    }
+  };
 
   useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const res = await axios.get("http://localhost:5001/api/tasks");
-        setTaskBuffer(res.data);
-        console.log(res.data);
-      } catch (error) {
-        console.error("Lỗi xảy ra khi truy xuất tasks:", error);
-        toast.error("Lỗi xảy ra khi truy xuất tasks.");
-      }
-    };
-    
     fetchTasks();
   }, []);
-
+    const handleTaskChanged = () => {
+    fetchTasks();
+  };  
+  //biến  const 
+  const filteredTasks = taskBuffer.filter((task) => {
+    switch (filter) {
+      case "active":
+        return task.status === "active";
+      case "completed":
+        return task.status === "complete";
+      default:
+        return true;
+    }
+  });  
   
   return (
     <div className="min-h-screen w-full relative bg-white">
@@ -54,13 +76,22 @@ const HomePage = () => {
         <Header/>
         
         {/* Tạo Nhiệm Vụ */}
-        <AddTask/>
+        <AddTask handleNewTaskAdded={handleTaskChanged}/>
         
         {/* Thống Kê và Bộ lọc */}
-        <StatsAndFilters/>
+        <StatsAndFilters
+          filter={filter}
+          setFilter={setFilter}
+          activeTasksCount={activeTaskCount}
+          completedTasksCount={completeTaskCount}
+        />
         
         {/* Danh Sách Nhiệm Vụ */}
-        <TaskList filteredTasks={taskBuffer} />
+        <TaskList 
+          filteredTasks={filteredTasks} 
+          filter={filter}
+          handleTaskChanged={handleTaskChanged}
+        />
         
         {/* Phân Trang và Lọc Theo Date */}
         <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
@@ -69,7 +100,10 @@ const HomePage = () => {
         </div>
 
         {/* Chân Trang */}
-        <Footer />
+        <Footer 
+          activeTasksCount={activeTaskCount}
+          completedTasksCount={completeTaskCount}
+        />
       </div>
     </div>
 </div>
