@@ -2,8 +2,6 @@ import AddTask from "@/components/AddTask";
 import Header from "@/components/Header";
 import StatsAndFilters from "@/components/StatsAndFilters";
 import TaskList from "@/components/TaskList";
-import TaskListPagination from "@/components/TaskListPagination";
-import DateTimeFilter from "@/components/DateTimeFilter";
 import Footer from "@/components/Footer";
 import React, { useEffect, useState } from "react";
 
@@ -92,12 +90,6 @@ const HomePage = () => {
           filter={filter}
           handleTaskChanged={handleTaskChanged}
         />
-        
-        {/* Phân Trang và Lọc Theo Date */}
-        <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
-          <TaskListPagination />
-          <DateTimeFilter />
-        </div>
 
         {/* Chân Trang */}
         <Footer 

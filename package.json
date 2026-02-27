@@ -1,0 +1,23 @@
+{
+  "name": "task-management-system",
+  "version": "1.0.0",
+  "description": "A modern full-stack Todo/Task management application built with Node.js, Express, MongoDB, and React",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "start": "npm run start --prefix backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HUYTG17/Task-Management-System.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/HUYTG17/Task-Management-System/issues"
+  },
+  "homepage": "https://github.com/HUYTG17/Task-Management-System#readme"
+}
